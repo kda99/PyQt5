@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_MainWindow(object):
@@ -11,7 +12,7 @@ class Ui_MainWindow(object):
         self.label.setGeometry(QtCore.QRect(0, 0, 400, 100))
         font = QtGui.QFont()
         font.setFamily("Tibetan Machine Uni")
-        font.setPointSize(45)
+        font.setPointSize(24)
         self.label.setFont(font)
         self.label.setStyleSheet("background-color: rgb(175, 175, 175);")
         self.label.setObjectName("label")
@@ -175,9 +176,30 @@ class Ui_MainWindow(object):
             self.label.setText(self.label.text() + item)
 
     def results(self):  # вычисление результата выражения
-        res = eval(self.label.text())
-        self.label.setText(str(res))
-        self.flag_equal = True
+        if not self.flag_equal:
+            res = eval(self.label.text())
+            self.label.setText('Результат: ' + str(res))
+            self.flag_equal = True
+        else:
+            error = QMessageBox()  # создание всплывающего окна
+            error.setWindowTitle('Ошибка')  # текст заголовка всплывающего окна
+            error.setText('Сейчас это действие выполнить нельзя')  # текст всплывающего окна
+            error.setIcon(QMessageBox.Warning)  # иконка всплывающего окна
+            error.setStandardButtons(
+                QMessageBox.Reset | QMessageBox.Ok | QMessageBox.Cancel)  # установка кнопок всплывающего окна
+            error.setDefaultButton(QMessageBox.Ok)  # установка кнопки всплывающего окна, которая будет подсвечиваться
+            error.setInformativeText('Два раза действие не выполнить')  # доп. текст под error.setText
+            error.setDetailedText('Детали причины вызова окна')  # доп. кнопка
+            error.buttonClicked.connect(self.popup_action)  # вызов обработчика при нажатии любой кнопки вспл. окна
+
+            error.exec_()
+
+    def popup_action(self, btn):  # обработка кнопок всплывающего окна
+        if btn.text() == 'Ok':
+            print('Print Ok')
+        elif btn.text() == 'Reset':
+            self.label.setText('')
+            self.flag_equal = False
 
 
 import sys
