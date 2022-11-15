@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+import os
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -40,15 +40,17 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.btn_function()
-        self.file_name = None
+        self.file_name = ''
+
 
     #
     def btn_function(self):
         self.btn_Open.clicked.connect(lambda: self.open_function())
         self.btn_Save.clicked.connect(lambda: self.save_function())
+        self.btn_Make.clicked.connect(lambda: self.make_function())
+        self.btn_BackUp.clicked.connect(lambda: self.backup_function())
 
-    @QtCore.pyqtSlot()
-    def open_function(self):
+    def open_function(self):  # диалог открытия файла
         self.file_name = QtWidgets.QFileDialog.getOpenFileName()[0]
         try:
             file_content = open(self.file_name, 'r')
@@ -58,8 +60,8 @@ class Ui_MainWindow(object):
             file_content.close()
         except:
             pass
-    # @QtCore.pyqtSlot()
-    def save_function(self):
+
+    def save_function(self):  # диалог сохраниения файла
         save_name_file = QtWidgets.QFileDialog.getSaveFileName()[0]
         try:
             file_content = open(save_name_file, 'w')
@@ -69,8 +71,27 @@ class Ui_MainWindow(object):
         except:
             pass
 
+    def backup_function(self):  # резервное копирование файла в .old
+        try:
+            # file_content = open(str(self.file_name) + '/old/.old', 'w')
+            self.create_old_dir(self.file_name)
+            file_content = open(self.file_path_former(self.file_name), 'w')
+            text = self.textEdit.toPlainText()
+            file_content.write(text)
+            file_content.close()
+        except:
+            pass
 
+    def create_old_dir(self, path: str):
+        d = path[0:path.rfind(f'/'):] + '/old/'
+        if not os.path.exists(d):
+            os.mkdir(d)
 
+    def file_path_former(self, path: str):
+        left = path[0:path.rfind(f'/'):]
+        right = '/old' + path[path.rfind(f'/')::] + '.old'
+        print(left + right)
+        return left + right
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -81,8 +102,8 @@ class Ui_MainWindow(object):
         self.btn_BackUp.setText(_translate("MainWindow", "BackUp"))
 
 
-
 import sys
+
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = Ui_MainWindow()
