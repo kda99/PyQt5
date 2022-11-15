@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -42,7 +43,6 @@ class Ui_MainWindow(object):
         self.btn_function()
         self.file_name = ''
 
-
     #
     def btn_function(self):
         self.btn_Open.clicked.connect(lambda: self.open_function())
@@ -71,9 +71,20 @@ class Ui_MainWindow(object):
         except:
             pass
 
+    def make_function(self):
+        self.backup_function()
+        try:
+            file_content = open(self.file_name, 'w')
+            text = self.textEdit.toPlainText()
+            text.replace('fill=\"rgb(239,228,176)\" stroke-width=\"1.25\" stroke=\"rgb(0,0,0)\"',
+                         'fill=\"rgba(0,0,0,0)\" stroke-width=\"1.25\" stroke=\"rgba(0,0,0,0)\"')
+            file_content.write(text)
+            file_content.close()
+        except:
+            pass
+
     def backup_function(self):  # резервное копирование файла в .old
         try:
-            # file_content = open(str(self.file_name) + '/old/.old', 'w')
             self.create_old_dir(self.file_name)
             file_content = open(self.file_path_former(self.file_name), 'w')
             text = self.textEdit.toPlainText()
