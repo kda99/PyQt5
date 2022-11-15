@@ -5,36 +5,36 @@ import os
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(400, 100)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
-        self.textEdit.setGeometry(QtCore.QRect(0, 0, 800, 500))
-        self.textEdit.setObjectName("textEdit")
+        # self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        # self.textEdit.setGeometry(QtCore.QRect(0, 0, 800, 500))
+        # self.textEdit.setObjectName("textEdit")
         self.btn_Open = QtWidgets.QPushButton(self.centralwidget)
-        self.btn_Open.setGeometry(QtCore.QRect(5, 510, 185, 80))
+        self.btn_Open.setGeometry(QtCore.QRect(5, 10, 185, 80))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.btn_Open.setFont(font)
         self.btn_Open.setObjectName("btn_Open")
-        self.btn_Save = QtWidgets.QPushButton(self.centralwidget)
-        self.btn_Save.setGeometry(QtCore.QRect(205, 510, 185, 80))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.btn_Save.setFont(font)
-        self.btn_Save.setObjectName("btn_Save")
+        # self.btn_Save = QtWidgets.QPushButton(self.centralwidget)
+        # self.btn_Save.setGeometry(QtCore.QRect(205, 510, 185, 80))
+        # font = QtGui.QFont()
+        # font.setPointSize(20)
+        # self.btn_Save.setFont(font)
+        # self.btn_Save.setObjectName("btn_Save")
         self.btn_Make = QtWidgets.QPushButton(self.centralwidget)
-        self.btn_Make.setGeometry(QtCore.QRect(405, 510, 185, 80))
+        self.btn_Make.setGeometry(QtCore.QRect(205, 10, 185, 80))
         font = QtGui.QFont()
         font.setPointSize(20)
         self.btn_Make.setFont(font)
         self.btn_Make.setObjectName("btn_Make")
-        self.btn_BackUp = QtWidgets.QPushButton(self.centralwidget)
-        self.btn_BackUp.setGeometry(QtCore.QRect(605, 510, 185, 80))
-        font = QtGui.QFont()
-        font.setPointSize(20)
-        self.btn_BackUp.setFont(font)
-        self.btn_BackUp.setObjectName("btn_BackUp")
+        # self.btn_BackUp = QtWidgets.QPushButton(self.centralwidget)
+        # self.btn_BackUp.setGeometry(QtCore.QRect(605, 510, 185, 80))
+        # font = QtGui.QFont()
+        # font.setPointSize(20)
+        # self.btn_BackUp.setFont(font)
+        # self.btn_BackUp.setObjectName("btn_BackUp")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -47,9 +47,9 @@ class Ui_MainWindow(object):
     #
     def btn_function(self):
         self.btn_Open.clicked.connect(lambda: self.open_function())
-        self.btn_Save.clicked.connect(lambda: self.save_function())
+        # self.btn_Save.clicked.connect(lambda: self.save_function())
         self.btn_Make.clicked.connect(lambda: self.make_function())
-        self.btn_BackUp.clicked.connect(lambda: self.backup_function())
+        # self.btn_BackUp.clicked.connect(lambda: self.backup_function())
 
     def open_function(self):  # диалог открытия файла
         self.file_name = QtWidgets.QFileDialog.getOpenFileName()[0]
@@ -57,7 +57,7 @@ class Ui_MainWindow(object):
             content = open(self.file_name, 'r')
             with content:
                 self.file_content = content.read()
-                self.textEdit.setText(self.file_content)
+                # self.textEdit.setText(self.file_content)
             content.close()
         except:
             pass
@@ -107,9 +107,9 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Программа"))
         self.btn_Open.setText(_translate("MainWindow", "Open"))
-        self.btn_Save.setText(_translate("MainWindow", "Save"))
+        # self.btn_Save.setText(_translate("MainWindow", "Save"))
         self.btn_Make.setText(_translate("MainWindow", "Make"))
-        self.btn_BackUp.setText(_translate("MainWindow", "BackUp"))
+        # self.btn_BackUp.setText(_translate("MainWindow", "BackUp"))
 
 
 import sys
