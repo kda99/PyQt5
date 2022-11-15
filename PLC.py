@@ -42,6 +42,7 @@ class Ui_MainWindow(object):
 
         self.btn_function()
         self.file_name = ''
+        self.file_content = None
 
     #
     def btn_function(self):
@@ -53,43 +54,42 @@ class Ui_MainWindow(object):
     def open_function(self):  # диалог открытия файла
         self.file_name = QtWidgets.QFileDialog.getOpenFileName()[0]
         try:
-            file_content = open(self.file_name, 'r')
-            with file_content:
-                line = file_content.read()
-                self.textEdit.setText(line)
-            file_content.close()
+            content = open(self.file_name, 'r')
+            with content:
+                self.file_content = content.read()
+                self.textEdit.setText(self.file_content)
+            content.close()
         except:
             pass
 
-    def save_function(self):  # диалог сохраниения файла
-        save_name_file = QtWidgets.QFileDialog.getSaveFileName()[0]
-        try:
-            file_content = open(save_name_file, 'w')
-            text = self.textEdit.toPlainText()
-            file_content.write(text)
-            file_content.close()
-        except:
-            pass
+    # def save_function(self):  # диалог сохраниения файла
+    #     save_name_file = QtWidgets.QFileDialog.getSaveFileName()[0]
+    #     try:
+    #         file_content = open(save_name_file, 'w')
+    #         text = self.textEdit.toPlainText()
+    #         file_content.write(text)
+    #         file_content.close()
+    #     except:
+    #         pass
 
     def make_function(self):
         self.backup_function()
         try:
-            file_content = open(self.file_name, 'w')
-            text = self.textEdit.toPlainText()
-            text.replace('fill=\"rgb(239,228,176)\" stroke-width=\"1.25\" stroke=\"rgb(0,0,0)\"',
+            open_file_content = open(self.file_name, 'w')
+            text = self.file_content
+            new_text = text.replace('fill=\"rgb(239,228,176)\" stroke-width=\"1.25\" stroke=\"rgb(0,0,0)\"',
                          'fill=\"rgba(0,0,0,0)\" stroke-width=\"1.25\" stroke=\"rgba(0,0,0,0)\"')
-            file_content.write(text)
-            file_content.close()
+            open_file_content.write(new_text)
+            open_file_content.close()
         except:
             pass
 
     def backup_function(self):  # резервное копирование файла в .old
         try:
             self.create_old_dir(self.file_name)
-            file_content = open(self.file_path_former(self.file_name), 'w')
-            text = self.textEdit.toPlainText()
-            file_content.write(text)
-            file_content.close()
+            open_file_content = open(self.file_path_former(self.file_name), 'w')
+            open_file_content.write(self.file_content)
+            open_file_content.close()
         except:
             pass
 
@@ -101,7 +101,6 @@ class Ui_MainWindow(object):
     def file_path_former(self, path: str):
         left = path[0:path.rfind(f'/'):]
         right = '/old' + path[path.rfind(f'/')::] + '.old'
-        print(left + right)
         return left + right
 
     def retranslateUi(self, MainWindow):
