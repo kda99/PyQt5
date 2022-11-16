@@ -74,7 +74,7 @@ class Ui_MainWindow(object):
             open_file_content.write(new_text)
             open_file_content.close()
             if not self.folder_name:
-                webbrowser.open(self.folder_name)
+                webbrowser.open(self.file_name)
             self.file_name = ''
             self.file_content = None
         except:
