@@ -87,7 +87,6 @@ class Ui_MainWindow(object):
             dir_list = list(filter(lambda file_name: file_name.endswith("svg"), os.listdir(self.folder_name)))
             for path_file in dir_list:
                 self.make_file_function(self.folder_name + "/" + path_file)
-            os.startfile(self.folder_name, 'explore')
             self.folder_name = ''
         except:
             if not self.folder_name:
