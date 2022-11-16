@@ -8,9 +8,6 @@ class Ui_MainWindow(object):
         MainWindow.resize(800, 100)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
-        # self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
-        # self.textEdit.setGeometry(QtCore.QRect(0, 0, 800, 500))
-        # self.textEdit.setObjectName("textEdit")
         self.btn_OpenFile = QtWidgets.QPushButton(self.centralwidget)
         self.btn_OpenFile.setGeometry(QtCore.QRect(5, 10, 185, 80))
         font = QtGui.QFont()
@@ -62,18 +59,9 @@ class Ui_MainWindow(object):
         except:
             pass
 
-    # def save_function(self):  # диалог сохраниения файла
-    #     save_name_file = QtWidgets.QFileDialog.getSaveFileName()[0]
-    #     try:
-    #         file_content = open(save_name_file, 'w')
-    #         text = self.textEdit.toPlainText()
-    #         file_content.write(text)
-    #         file_content.close()
-    #     except:
-    #         pass
-
     def open_folder_function(self):
         self.folder_name = QtWidgets.QFileDialog.getExistingDirectory()
+        print(self.folder_name)
 
     def make_file_function(self, path=None):
         path = self.file_name if path is None else path
@@ -85,25 +73,30 @@ class Ui_MainWindow(object):
                                     'fill=\"rgba(0,0,0,0)\" stroke-width=\"1.25\" stroke=\"rgba(0,0,0,0)\"')
             open_file_content.write(new_text)
             open_file_content.close()
-            self.folder_name = ''
+            self.file_name = ''
             self.file_content = None
         except:
             pass
 
     def make_folder_function(self):
-        dir_list = list(filter(lambda x: x.endswith("svg"), os.listdir(self.folder_name)))
-        for path_file in dir_list:
-            self.make_file_function(self.folder_name + "/" + path_file)
-        self.folder_name = ''
+        try:
+            dir_list = list(filter(lambda x: x.endswith("svg"), os.listdir(self.folder_name)))
+            for path_file in dir_list:
+                self.make_file_function(self.folder_name + "/" + path_file)
+            self.folder_name = ''
+        except:
+            pass
 
     def backup_function(self, path=None):  # резервное копирование файла в .old
         path = self.file_name if path is None else path
         try:
             self.create_old_dir(path)
-            open_file_content = open(self.file_path_former(path), 'w')
-            self.open_file_function(path)
-            open_file_content.write(self.file_content)
-            open_file_content.close()
+            file_path = self.file_path_former(path)
+            if not os.path.exists(file_path):
+                open_file_content = open(file_path, 'w')
+                self.open_file_function(path)
+                open_file_content.write(self.file_content)
+                open_file_content.close()
         except:
             pass
 
