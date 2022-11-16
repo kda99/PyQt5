@@ -43,6 +43,7 @@ class Ui_MainWindow(object):
         self.btn_function()
         self.file_name = ''
         self.file_content = None
+        self.none = None
 
     #
     def btn_function(self):
