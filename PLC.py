@@ -43,11 +43,7 @@ class Ui_MainWindow(object):
         self.btn_function()
         self.file_name = ''
         self.file_content = None
-        self.none = None
-        self.none1 = None
 
-
-    #
     def btn_function(self):
         self.btn_Open.clicked.connect(lambda: self.open_function())
         # self.btn_Save.clicked.connect(lambda: self.save_function())
@@ -81,7 +77,7 @@ class Ui_MainWindow(object):
             open_file_content = open(self.file_name, 'w')
             text = self.file_content
             new_text = text.replace('fill=\"rgb(239,228,176)\" stroke-width=\"1.25\" stroke=\"rgb(0,0,0)\"',
-                         'fill=\"rgba(0,0,0,0)\" stroke-width=\"1.25\" stroke=\"rgba(0,0,0,0)\"')
+                                    'fill=\"rgba(0,0,0,0)\" stroke-width=\"1.25\" stroke=\"rgba(0,0,0,0)\"')
             open_file_content.write(new_text)
             open_file_content.close()
         except:
