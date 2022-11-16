@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 import os
 
 
@@ -61,7 +62,6 @@ class Ui_MainWindow(object):
 
     def open_folder_function(self):
         self.folder_name = QtWidgets.QFileDialog.getExistingDirectory()
-        print(self.folder_name)
 
     def make_file_function(self, path=None):
         path = self.file_name if path is None else path
@@ -76,18 +76,27 @@ class Ui_MainWindow(object):
             self.file_name = ''
             self.file_content = None
         except:
-            pass
+            if not path:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Необходимо открыть файл')
+                error.exec_()
 
     def make_folder_function(self):
         try:
-            dir_list = list(filter(lambda x: x.endswith("svg"), os.listdir(self.folder_name)))
+            dir_list = list(filter(lambda file_name: file_name.endswith("svg"), os.listdir(self.folder_name)))
             for path_file in dir_list:
                 self.make_file_function(self.folder_name + "/" + path_file)
+            os.startfile(self.folder_name, 'explore')
             self.folder_name = ''
         except:
-            pass
+            if not self.folder_name:
+                error = QMessageBox()
+                error.setWindowTitle('Ошибка')
+                error.setText('Необходимо открыть папку')
+                error.exec_()
 
-    def backup_function(self, path=None):  # резервное копирование файла в .old
+    def backup_function(self, path=None):  # резервное копирование файла в ~/old
         path = self.file_name if path is None else path
         try:
             self.create_old_dir(path)
