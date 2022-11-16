@@ -86,24 +86,17 @@ class Ui_MainWindow(object):
                                     'fill=\"rgba(0,0,0,0)\" stroke-width=\"1.25\" stroke=\"rgba(0,0,0,0)\"')
             open_file_content.write(new_text)
             open_file_content.close()
+            self.folder_name = ''
+            self.file_content = None
         except:
             pass
 
     def make_folder_function(self):
         dir_list = list(filter(lambda x: x.endswith("svg"), os.listdir(self.folder_name)))
         for path_file in dir_list:
-                # check_svg = i.split(".")[1]
-                # if i.endswith("svg"):
             self.make_file_function(self.folder_name + "/" + path_file)
-                    # full_path = self.folder_name + "\\" + i
-                    # with open(full_path, "r", encoding="utf-8") as f:
-                    #     old_data = f.read()
-                    #     new_data = old_data.replace(
-                    #         'fill=\"rgb(239,228,176)\" stroke-width=\"1.25\" stroke=\"rgb(0,0,0)\"',
-                    #         'fill=\"rgba(0,0,0,0)\" stroke-width=\"1.25\" stroke=\"rgba(0,0,0,0)\"')
+        self.folder_name = ''
 
-                    # with open(full_path, "w", encoding="utf-8") as f:
-                    #     f.write(new_data)
 
 
     def backup_function(self, path = None):  # резервное копирование файла в .old
