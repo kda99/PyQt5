@@ -51,7 +51,7 @@ class Ui_MainWindow(object):
         self.btn_Make_File.clicked.connect(lambda: self.make_file_function())
         self.btn_Make_Folder.clicked.connect(lambda: self.make_folder_function())
 
-    def open_file_function(self, path = None):  # диалог открытия файла
+    def open_file_function(self, path=None):  # диалог открытия файла
         self.file_name = QtWidgets.QFileDialog.getOpenFileName()[0] if path is None else path
         try:
             content = open(self.file_name, 'r')
@@ -75,8 +75,7 @@ class Ui_MainWindow(object):
     def open_folder_function(self):
         self.folder_name = QtWidgets.QFileDialog.getExistingDirectory()
 
-
-    def make_file_function(self, path = None):
+    def make_file_function(self, path=None):
         path = self.file_name if path is None else path
         self.backup_function(path)
         try:
@@ -97,9 +96,7 @@ class Ui_MainWindow(object):
             self.make_file_function(self.folder_name + "/" + path_file)
         self.folder_name = ''
 
-
-
-    def backup_function(self, path = None):  # резервное копирование файла в .old
+    def backup_function(self, path=None):  # резервное копирование файла в .old
         path = self.file_name if path is None else path
         try:
             self.create_old_dir(path)
