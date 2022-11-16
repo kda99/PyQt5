@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QMessageBox
 import os
+import webbrowser
 
 
 class Ui_MainWindow(object):
@@ -55,7 +56,6 @@ class Ui_MainWindow(object):
             content = open(self.file_name, 'r')
             with content:
                 self.file_content = content.read()
-                # self.textEdit.setText(self.file_content)
             content.close()
         except:
             pass
@@ -73,6 +73,8 @@ class Ui_MainWindow(object):
                                     'fill=\"rgba(0,0,0,0)\" stroke-width=\"1.25\" stroke=\"rgba(0,0,0,0)\"')
             open_file_content.write(new_text)
             open_file_content.close()
+            if not self.folder_name:
+                webbrowser.open(self.folder_name)
             self.file_name = ''
             self.file_content = None
         except:
@@ -87,7 +89,16 @@ class Ui_MainWindow(object):
             dir_list = list(filter(lambda file_name: file_name.endswith("svg"), os.listdir(self.folder_name)))
             for path_file in dir_list:
                 self.make_file_function(self.folder_name + "/" + path_file)
+            tmp = self.folder_name
             self.folder_name = ''
+            if dir_list:
+                webbrowser.open(tmp)
+            else:
+                error = QMessageBox()
+                error.setWindowTitle('Сообщение')
+                error.setText('В папке не найдено файлов для преобразования')
+                error.exec_()
+            tmp = ''
         except:
             if not self.folder_name:
                 error = QMessageBox()
