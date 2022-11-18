@@ -54,8 +54,7 @@ class Ui_MainWindow(object):
         self.file_name = QtWidgets.QFileDialog.getOpenFileName()[0] if path is None else path
         try:
             content = open(self.file_name, 'r')
-            with content:
-                self.file_content = content.read()
+            self.file_content = content.read()
             content.close()
         except:
             pass
@@ -109,11 +108,11 @@ class Ui_MainWindow(object):
     def backup_function(self, path=None):  # резервное копирование файла в ~/old
         path = self.file_name if path is None else path
         try:
+            self.open_file_function(path)
             self.create_old_dir(path)
             file_path = self.file_path_former(path)
             if not os.path.exists(file_path):
                 open_file_content = open(file_path, 'w')
-                self.open_file_function(path)
                 open_file_content.write(self.file_content)
                 open_file_content.close()
         except:
